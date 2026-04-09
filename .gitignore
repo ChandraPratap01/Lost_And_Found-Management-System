@@ -1,0 +1,10 @@
+lostfound-frontend/node_modules
+lostfound-frontend/.next
+lostfound-frontend/build
+Lost_And_Found/target
+Lost_And_Found/.idea
+Lost_And_Found/.env
+.DS_Store
+.vscode
+.idea
+*.log
