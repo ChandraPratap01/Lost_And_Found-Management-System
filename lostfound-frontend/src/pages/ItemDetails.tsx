@@ -211,8 +211,7 @@ export default function ItemDetails() {
                 </h2>
                 <p className="mt-3 text-sm leading-7 text-slate-600">
                   Enter the claim reference ID shared by the claimant to approve
-                  or reject it. The current backend does not provide a claim
-                  list endpoint, so claim references must be entered manually.
+                  or reject it.
                 </p>
 
                 <label className="mt-5 flex flex-col gap-2">
