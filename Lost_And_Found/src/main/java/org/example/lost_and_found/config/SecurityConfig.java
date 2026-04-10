@@ -3,6 +3,7 @@ package org.example.lost_and_found.config;
 import lombok.RequiredArgsConstructor;
 import org.example.lost_and_found.security.JwtFilter;
 import org.example.lost_and_found.util.JwtUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,18 +23,22 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors(cors->{}).csrf(csrf->csrf.disable()).sessionManagement(sess->sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(auth->auth.requestMatchers("/api/auth/**").permitAll().requestMatchers("/api/admin/**").hasRole("ADMIN").requestMatchers("api/user/**").hasAnyRole("USER","ADMIN").anyRequest().authenticated());
+        http.cors(cors->{}).csrf(csrf->csrf.disable()).sessionManagement(sess->sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(auth->auth.requestMatchers("/api/auth/**").permitAll().requestMatchers("/api/admin/**").hasRole("ADMIN").requestMatchers("/api/user/**").hasAnyRole("USER","ADMIN").anyRequest().authenticated());
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+    @Value("${frontend.URL}")
+    private String frontendURL;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        System.out.println("Frontend URL = " + frontendURL);
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:5173")); // frontend
+        configuration.setAllowedOrigins(List.of(frontendURL)); // frontend
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
